@@ -1,6 +1,6 @@
 {
-    "name": "analitics",
-    "short_name": "analitics",
+    "name": "AFCTO analitics",
+    "short_name": "AFCTO analitics",
     "start_url": "https://academiafutbolcto.github.io/analitics/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
@@ -19,3 +19,4 @@
     ]
 
 }
+
