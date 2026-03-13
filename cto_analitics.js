@@ -322,7 +322,8 @@ $(document).ready(function() {
         marcatiempoTotal = Math.floor(Date.now() / 1000);
         storageManager("guardar",'marcatiempototal', marcatiempoTotal);
         //console.log("marcatiempototal");
-        $(`#time0`).text(` ${minutosTotales}:${segundosTotales < 10 ? '0' : ''}${segundosTotales}`+'  ('+marcatiempototalDate+')');
+        //$(`#time0`).text(` ${minutosTotales}:${segundosTotales < 10 ? '0' : ''}${segundosTotales}`+'  ('+marcatiempototalDate+')');
+        $(`#time0`).text(` ${minutosTotales}:${segundosTotales < 10 ? '0' : ''}${segundosTotales}`);
     }
 
     function iniciartotaltiempo(){
@@ -1749,3 +1750,4 @@ $(document).ready(function() {
     $(window).scrollTop(0);
 });
 //-------------------------------------------------------------------------------------
+
