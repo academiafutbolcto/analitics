@@ -1191,44 +1191,50 @@ $(document).ready(function() {
         $(window).scrollTop(0);
     });
     $('.increment-left').click(function() {
-        var leftDiv = $(this).closest('.sectionestadistica').find('.numestadisticasleft');
-        var tipoestadistica = $(this).closest('.grupdivestadisticas').find('span');
-        ////console.log("Estadistica "+tipoestadistica.text());
-        var currentValue = parseInt(leftDiv.text());
-        leftDiv.text(currentValue + 1);
-        storageManager("guardar",tipoestadistica.attr("id")+"left", currentValue + 1);
-        const minutosTotales = Math.floor(iniTiempo / 60);
-        mensajeTablaMarcador('CTO '+tipoestadistica.text().split(' ').map((palabra, index) =>
-            index === 0 ? palabra.slice(0, -1) : palabra
-        ).join(' ')+" min "+minutosTotales);
+        if(iniTiempo>0) {
+            var leftDiv = $(this).closest('.sectionestadistica').find('.numestadisticasleft');
+            var tipoestadistica = $(this).closest('.grupdivestadisticas').find('span');
+            ////console.log("Estadistica "+tipoestadistica.text());
+            var currentValue = parseInt(leftDiv.text());
+            leftDiv.text(currentValue + 1);
+            storageManager("guardar", tipoestadistica.attr("id") + "left", currentValue + 1);
+            const minutosTotales = Math.floor(iniTiempo / 60);
+            mensajeTablaMarcador('CTO ' + tipoestadistica.text().split(' ').map((palabra, index) =>
+                index === 0 ? palabra.slice(0, -1) : palabra
+            ).join(' ') + " min " + minutosTotales);
+        }
     });
     $('.increment-right').click(function() {
-        var rightDiv = $(this).closest('.sectionestadistica').find('.numestadisticasright');
-        var tipoestadistica = $(this).closest('.grupdivestadisticas').find('span');
-        //////console.log("Estadistica "+tipoestadistica.attr("id")+"left");
-        var currentValue = parseInt(rightDiv.text());
-        rightDiv.text(currentValue + 1);
-        storageManager("guardar",tipoestadistica.attr("id")+"right", currentValue + 1);
-        const minutosTotales = Math.floor(iniTiempo / 60);
-        mensajeTablaMarcador('ADVERSARIO '+tipoestadistica.text().split(' ').map((palabra, index) =>
-            index === 0 ? palabra.slice(0, -1) : palabra
-        ).join(' ')+" min "+minutosTotales);
+        if(iniTiempo>0) {
+            var rightDiv = $(this).closest('.sectionestadistica').find('.numestadisticasright');
+            var tipoestadistica = $(this).closest('.grupdivestadisticas').find('span');
+            //////console.log("Estadistica "+tipoestadistica.attr("id")+"left");
+            var currentValue = parseInt(rightDiv.text());
+            rightDiv.text(currentValue + 1);
+            storageManager("guardar", tipoestadistica.attr("id") + "right", currentValue + 1);
+            const minutosTotales = Math.floor(iniTiempo / 60);
+            mensajeTablaMarcador('ADVERSARIO ' + tipoestadistica.text().split(' ').map((palabra, index) =>
+                index === 0 ? palabra.slice(0, -1) : palabra
+            ).join(' ') + " min " + minutosTotales);
+        }
     });
     //-------------------------------------
     $('#add-gol-cto').click(function() {
-        $('#goleador-en-juego').empty();
-        $('#asistencia-en-juego').empty();
-        for (var i = 0; i < nombresCronometros.length; i++) {
-            var jugador = nombresCronometros[i];
-            const option = `<option value="${jugador}">${jugador}</option>`;
-            if ($("#check" + jugador).is(':checked')) {
-                $('#goleador-en-juego').append(option);
-                $('#asistencia-en-juego').append(option);
+        if(iniTiempo>0) {
+            $('#goleador-en-juego').empty();
+            $('#asistencia-en-juego').empty();
+            for (var i = 0; i < nombresCronometros.length; i++) {
+                var jugador = nombresCronometros[i];
+                const option = `<option value="${jugador}">${jugador}</option>`;
+                if ($("#check" + jugador).is(':checked')) {
+                    $('#goleador-en-juego').append(option);
+                    $('#asistencia-en-juego').append(option);
+                }
             }
+            $('#goleador-modal').show();
+            //------------
+            //----------
         }
-        $('#goleador-modal').show();
-        //------------
-        //----------
     });
     //save gol
     $('#save-gol').click(function() {
@@ -1243,7 +1249,7 @@ $(document).ready(function() {
         //Recoger minuto del partido
         const minutosTotales = Math.floor(iniTiempo / 60);
         //crear fila en la tabla
-        mensajeTablaMarcador('Gol '+goleador+" min "+minutosTotales+" asistencia "+asistente);
+        mensajeTablaMarcador('Gol '+goleador+" min: "+minutosTotales+" asistencia "+asistente);
 
         //actualizar en el div el nuevo resultado
         storageManager("guardar",'resulCto', resulCto);
@@ -1258,8 +1264,10 @@ $(document).ready(function() {
     //fin de save gol
     //add gol adversario
     $('#add-gol-adv').click(function() {
-        //mostrar un campo de numerico y un boton para guardar el numero del goleador
-        $('#goleador-adv-modal').show();
+        if(iniTiempo>0) {
+            //mostrar un campo de numerico y un boton para guardar el numero del goleador
+            $('#goleador-adv-modal').show();
+        }
     });
     //fin de add gol adversario
     $('#save-gol-adv').click(function() {
@@ -1267,7 +1275,7 @@ $(document).ready(function() {
         resulAdv++;
         //recojo el numero del campo de texto
         const minutosTotales = Math.floor(iniTiempo / 60);
-        mensajeTablaMarcador(minutosTotales);
+        mensajeTablaMarcador("Gol "+adversario+" min: "+minutosTotales);
         // Añadir la nueva fila a la tabla
 
         //actualizar en el div el nuevo resultado
