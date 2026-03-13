@@ -300,7 +300,7 @@ $(document).ready(function() {
         }
         else {
             if (solofecha) cadena = `${dia}/${mes}/${anio}`;
-            else cadena = `${dia} /${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+            else cadena = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
         }
 
         // Mostrar la fecha y hora en el elemento con id "fecha-hora"
@@ -1758,6 +1758,7 @@ $(document).ready(function() {
     $(window).scrollTop(0);
 });
 //-------------------------------------------------------------------------------------
+
 
 
 
