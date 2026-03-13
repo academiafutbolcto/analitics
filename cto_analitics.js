@@ -929,9 +929,9 @@ $(document).ready(function() {
         midiv.append(checkbox);
         midiv.append(spantiempo);
         midiv.append(span3);
-        midiv.append(buttondelete);
-        midiv.append(checkboxp);
+        midiv.append(buttondelete);        
         midiv.append(spanpuerta);
+        midiv.append(checkboxp);
 
         var spanbotones = $("<span>");
         spanbotones.attr("id", "spbtn1"+nombresCronometros[i]);
@@ -1758,5 +1758,6 @@ $(document).ready(function() {
     $(window).scrollTop(0);
 });
 //-------------------------------------------------------------------------------------
+
 
 
