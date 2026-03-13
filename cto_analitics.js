@@ -21,7 +21,7 @@ $(document).ready(function() {
     var mensajestablaMarcador=[];
     var nombresCronometros=[];
     var equipoElegido;
-    var pdfParte='Estadisticas ';
+    var pdfParte=fechaHora(true,true)+' Estadisticas ';
     var tiempopartido=1;
     var capitan="";
     var equipotitular=[];
@@ -273,7 +273,7 @@ $(document).ready(function() {
         });
     }
 
-    function fechaHora() {
+    function fechaHora(solofecha=false,sinformato=false) {
         //console.log("fechaHora");
         let ahora = new Date();
 
@@ -293,12 +293,20 @@ $(document).ready(function() {
         horas = horas < 10 ? "0" + horas : horas;
         minutos = minutos < 10 ? "0" + minutos : minutos;
         segundos = segundos < 10 ? "0" + segundos : segundos;
-
-        let cadena = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+        let cadena = "";
+        if(sinformato){
+            if (solofecha) cadena = `${anio}${mes}${dia}`;
+            else cadena = `${anio}${mes}${dia}${horas}${minutos}${segundos}`;
+        }
+        else {
+            if (solofecha) cadena = `${dia}/${mes}/${anio}`;
+            else cadena = `${dia} /${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+        }
 
         // Mostrar la fecha y hora en el elemento con id "fecha-hora"
         return cadena;
     }
+    
     function mostrarTotalTiempo(){
         console.log("mostrarTotalTiempo");
         const minutosTotales = Math.floor(iniTiempo / 60);
@@ -496,7 +504,7 @@ $(document).ready(function() {
         $("#time0").text("0:00");
         clearInterval(totalTiempo);
         iniTiempo=0;
-        pdfParte="Primera Parte "
+        pdfParte=fechaHora(true,true)+" Estadisticas "
         pararIntervalos();
         //////console.log("reiniciarIntervalos ");
         localStorage.removeItem('checkeados');
@@ -1745,9 +1753,10 @@ $(document).ready(function() {
         XLSX.writeFile(wb, pdfParte + adversario + ' .xlsx');
 
         // 11. Resetear variable
-        pdfParte = "Total Partido ";
+        pdfParte = fechaHora(true,true)+ " Estadisticas ";
     });
     $(window).scrollTop(0);
 });
 //-------------------------------------------------------------------------------------
+
 
