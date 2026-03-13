@@ -925,11 +925,11 @@ $(document).ready(function() {
             spantiempo.text(` ${minutos}:${segundos < 10 ? '0' : ''}${segundos}`)
         };
         midiv.append(span1);
+        midiv.append(buttondelete);
         midiv.append(spanjugador);
         midiv.append(checkbox);
         midiv.append(spantiempo);
-        midiv.append(span3);
-        midiv.append(buttondelete);        
+        midiv.append(span3);                
         midiv.append(spanpuerta);
         midiv.append(checkboxp);
 
@@ -1758,6 +1758,7 @@ $(document).ready(function() {
     $(window).scrollTop(0);
 });
 //-------------------------------------------------------------------------------------
+
 
 
 
