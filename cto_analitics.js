@@ -1393,6 +1393,8 @@ $(document).ready(function() {
             //case "BenjaminB":nombresCronometros=benjaminB;break;
             case "alevinA":nombresCronometros=decode(alevinA);maxTiempo=60;break;
             case "alevinB":nombresCronometros=decode(alevinB);maxTiempo=60;break;
+            case "torneoA":nombresCronometros=decode(torneoA);maxTiempo=25;break;
+            case "torneoB":nombresCronometros=decode(torneoB);maxTiempo=25;break;
             case "alevinF":nombresCronometros=decode(alevinF);maxTiempo=60;break;
             case "benjaminB":nombresCronometros=decode(benjaminB);maxTiempo=50;break;
             case "benjaminA":nombresCronometros=decode(benjaminA);maxTiempo=50;break;
