@@ -14,4 +14,4 @@ const juvenilA = "WyJIZWN0b3JfR29zcCIsIlRvc2hrbyIsIkhhaXRlbV9FdHRhZnkiLCJNb2hhbW
 const juvenilB = "W10=";
 const juvenilF = "W10=";
 //const equips =["prebenjaminA","benjaminB","benjaminA","alevinF","alevinB","alevinA","infantilA","infantilB","infantilF","cadeteF","cadeteB","cadeteA","juvenilA","juvenilB","juvenilF"];
-const equips =["prebenjaminA","benjaminB","benjaminA","alevinF","alevinB","alevinA","infantilA","cadeteF","cadeteA","juvenilA"];
+const equips =["prebenjaminA","benjaminB","benjaminA","alevinF","alevinB","alevinA", "GoalA","GoalB","infantilA","cadeteF","cadeteA","juvenilA"];
