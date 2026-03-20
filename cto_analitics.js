@@ -1410,7 +1410,7 @@ $(document).ready(function() {
             case "juvenilB":nombresCronometros=decode(juvenilB);maxJugadores=11;maxTiempo=90;break;
             case "juvenilF":nombresCronometros=decode(juvenilF);maxJugadores=11;maxTiempo=90;break;
         }
-        //alert('');
+        console.log(nombresCronometros);
         storageManager("guardar",'equipoelegido', equipoElegido);
         storageManager("guardar",'maxTiempo', maxTiempo);
         storageManager("guardar",'maxJugadores', maxJugadores);
