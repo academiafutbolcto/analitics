@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -232,18 +234,27 @@
             border: none;
             padding: 0 5px;
             font-weight:bolder !important;
-            min-width:60%;
+            min-width:150px;
             align-items: center;
             justify-content: center;
             border:1px solid #000000;
         }
-        .numestadisticasleft{
+        .estadistica_lateral{
             display: inline-block;
+            border: none;
+            padding: 0 5px;
+            font-weight:bolder !important;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .numestadisticasleft{
+            display: flex;
             text-align: left;
             max-width:40px;
         }
         .numestadisticasright{
-            display: inline-block;
+            display: flex;
             text-align: right;
             max-width:40px;
         }
@@ -251,11 +262,11 @@
             display: inline-block;
         }
         .grupdivestadisticas{
-            display:inline-block;
-            width: 100%;
+            display:flex;
+            flex:1;
             align-items: center;
             justify-content: center;
-            
+
         }
         #add-rival, #saveadversario, #change-localteam{
             background-color: grey;
@@ -282,8 +293,9 @@
             border:1px solid #cccccc;
             border-radius: 5px;
             padding:6px 16px;
-            max-width:44px !important;
+            max-width:44px !important;            
         }
+
         #cronometroTotal{
             background-color: white;
             color: grey;
@@ -598,71 +610,71 @@
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="rematesFueraLeft">0</div>
         <div class="grupdivestadisticas">
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="rematesFuera">Remates Fuera</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="rematesFueraRight">0</div>
     </div>
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="rematesPorteriaLeft">0</div>
         <div class="grupdivestadisticas">
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="rematesPorteria">Remates Dentro</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="rematesPorteriaRight">0</div>
     </div>
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="paradasPorteroLeft">0</div>
         <div class="grupdivestadisticas" >
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="paradasPortero">Paradas Porter@</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="paradasPorteroRight">0</div>
     </div>
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="cornerLeft">0</div>
         <div class="grupdivestadisticas">
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="cornersFavor">Corners</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="cornerRight">0</div>
     </div>
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="fuerasJuegoLeft">0</div>
         <div class="grupdivestadisticas">
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="fuerasJuego">Fueras de juego</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="fuerasJuegoRight">0</div>
     </div>
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="faltasLeft">0</div>
         <div class="grupdivestadisticas">
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="faltasCometidas">Faltas cometidas</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="faltasRight">0</div>
     </div>
     <div class="sectionestadistica">
         <div class="numestadisticasleft" id="tarjetasAmarillasLeft">0</div>
         <div class="grupdivestadisticas">
-            <div class="estadisticas"><button class="increment-left">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-left">+</button></div>
             <div class="estadisticas"><span id="tarjetasAmarillas">Tarjetas Amarillas</span></div>
-            <div class="estadisticas"><button class="increment-right">+</button></div>
+            <div class="estadistica_lateral"><button class="increment-right">+</button></div>
         </div>
         <div class="numestadisticasright" id="tarjetasAmarillasRight">0</div>
     </div><div class="sectionestadistica">
     <div class="numestadisticasleft" id="tarjetasRojasLeft">0</div>
     <div class="grupdivestadisticas">
-        <div class="estadisticas"><button class="increment-left">+</button></div>
+        <div class="estadistica_lateral"><button class="increment-left">+</button></div>
         <div class="estadisticas"><span id="tarjetasRojas">Tarjetas Rojas</span></div>
-        <div class="estadisticas"><button class="increment-right">+</button></div>
+        <div class="estadistica_lateral"><button class="increment-right">+</button></div>
     </div>
     <div class="numestadisticasright" id="tarjetasRojasRight">0</div>
 </div>
