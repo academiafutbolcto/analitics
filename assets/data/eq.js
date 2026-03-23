@@ -1,3 +1,4 @@
+//2025-2026
 const alevinB = "WyJJdm9yX0Z1ZW50ZXMiLCJBbGV4aXNfR2Fycmlnb3MiLCAiQWxlaXhfQ2lzY2FyIiwgIkFybmF1X0dFIiwgIkNhcmxlc19DaG9leiIsICJEYXJpb19Nb3Jlbm8iLAogICAgIkdhYnJpZWxfUnV6YWZhIiwgIkhlY3Rvcl9Db2xsYWRvIiwgIkpvYW5fUnVlZGEiLCAiTWFpYV9NaXJhcyIsICJNYXJjX0lib3JyYSIsIk9zY2FyX1RlYmFyIiwKICAgICJBcm5hdV9HTEwiLCAiQ2FybG9zX0NvcnRlcyIsICJMZW9fQW50dW5leiIsICJNaWd1ZWxfTW9ucmFiYWwiLCAiVmljdG9yX0liaXphIiwKICAgICJBbmRyZXVfUGVyZXoiLCJCcmFpc19HaXJhdSIsICJHdWlsbGVtX09ydG9sYSIsICJNYXRlb19WaXJnaWxpIiwgIkRpZGFjX0Nhcm1vbmEiLCJNaWd1ZWxfQW5nZWxfQXJqb25hIl0=";
 const alevinA = "WyJQYWJsb19NdW5veiIsIklhbmlzX0x1bmd1IiwiRGFuaV9Mb3BleiIsICJEYW5pX09ydGVnYSIsIkNyaXN0aWFuX0ZpcmljaSIsIk1heGltX01vcmFuIiwgIlJ1YmVuX0VzY3JpdmEiLCJBbmRyZXVfUGVyZXoiLAogICAgIkJyYWlzX0dpcmF1IiwgIkh1Z29fTWFydGluIiwgIk1hbmVsX0Z1c3RlciIsICJNYXJjX0NvbG9tIiwgIk1hdGVvX1ZpcmdpbGkiLCAiR3VpbGxlbV9PcnRvbGEiLCAiTGVvX0FudHVuZXoiLAogICAgIkFybmF1X0dMTCIsIkNhcmxvc19Db3J0ZXMiLCJWaWN0b3JfSWJpemEiIF0=";
 const benjaminA = "WyJFZGdhcl9CZXJ0b21ldSIsIk9zY2FyX01vcmVubyIsICJKb3JkaV9PbHRyYSIsICJBbGV4X0xsZWRvIiwgIkRhbmllbF9NYXRlbCIsICAiSm9hbl9DYWxkZXMiLAogICAgIkd1aWxsZW1fU2VydmVyIiwgIk1hcmNfR29tYXIiLCAiR29uemFsb19MbG9waXMiLCAiSm9hbl9WaWRhbCIsICJNYXJjX1NpZ2FsYXQiLCAiWGF2aV9SaWVyYSIsICJYYXZpX0FybGFuZGlzIiwKICAgICJBbGJlcnRfQmFycmVyZXMiXQ==";
@@ -17,3 +18,4 @@ const juvenilB = "W10=";
 const juvenilF = "W10=";
 //const equips =["prebenjaminA","benjaminB","benjaminA","alevinF","alevinB","alevinA","infantilA","infantilB","infantilF","cadeteF","cadeteB","cadeteA","juvenilA","juvenilB","juvenilF"];
 const equips =["prebenjaminA","benjaminB","benjaminA","alevinF","alevinB","alevinA", "goalA","goalB","infantilA","cadeteF","cadeteA","juvenilA"];
+const equips =["prebenjaminA", "benjaminB", "benjaminA", "alevinF", "alevinB", "alevinA", "infantilA", "cadeteF", "cadeteA", "juvenilA"];
