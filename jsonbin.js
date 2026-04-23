@@ -9,7 +9,7 @@ async function cargarDatosOld(jsonbinId) {
                 "Content-Type": "application/json"
             }
         });
-
+        
         if (!response.ok) {
             throw new Error("Error HTTP: " + response.status);
         }
@@ -33,7 +33,7 @@ async function cargarDatos(jsonbinId) {
         console.log("https://api.jsonbin.io/v3/b/"+jsonbinId+"/latest");
 
         const response = await fetch(`/api/datos?id=${jsonbinId}`);
-
+        console.log(response);
         if (!response.ok) {
             throw new Error("Error HTTP: " + response.status);
         }
