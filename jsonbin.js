@@ -1,3 +1,4 @@
+//mod realizado
 async function cargarDatosOld(jsonbinId) {
     try {
         //const response = await fetch("https://api.jsonbin.io/v3/b/69c3ea63c3097a1dd55b9f61/latest", {
