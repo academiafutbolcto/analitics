@@ -3,8 +3,10 @@ export default async function handler(req, res) {
 
     try {
         const response = await fetch(`https://api.jsonbin.io/v3/b/${id}/latest`, {
+            method: "GET",
             headers: {
-                "X-Access-Key": process.env.JSONBIN_KEY
+                "X-Access-Key": process.env.JSONBIN_KEY,
+                "Content-Type": "application/json"
             }
         });
 
