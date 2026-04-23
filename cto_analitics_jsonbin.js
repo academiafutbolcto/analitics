@@ -31,6 +31,7 @@ $(document).ready(function() {
     var maxTiempo=50;
     var portero="";
     equipos = storageManager("leer",'equipos');
+    equipoElegido=storageManager("leer",'equipoElegido');
 
     if(equipos==null) {
         cargarDatos("69c3ea63c3097a1dd55b9f61").then(function (jsequipos) {
@@ -89,7 +90,7 @@ $(document).ready(function() {
         marcamensajes=storageManager("leer",'marcamensajes');
         mensajes=storageManager("leer",'mensajes');
         mensajestablaMarcador=storageManager("leer",'mensajestablamarcador');
-        equipoElegido=storageManager("leer",'equipoElegido');
+
         maxTiempo=storageManager("leer",'maxTiempo');
         portero=storageManager("leer",'portero');
         maxJugadores=storageManager("leer",'maxJugadores');
@@ -131,11 +132,9 @@ $(document).ready(function() {
         $('#resulAdv').text(resulAdv);
         $('#resulCto').text(resulCto);
     }else{
-        if(!equipoElegido){
-            ////console.log("No hay equipo elegido");
-            //nombresCronometros=alevinA ;
-            //hay que poner el selected al option
-
+        console.log("aqui"+equipoElegido);
+        if(equipoElegido!=null){
+            mostrarJugadoresEquipo(equipoElegido);
         }
 
     }
@@ -537,7 +536,7 @@ $(document).ready(function() {
         localStorage.removeItem('tiempos');
         localStorage.removeItem('tiempototal');
         localStorage.removeItem('adversario');
-        localStorage.removeItem('equipoelegido');
+        localStorage.removeItem('equipoElegido');
         localStorage.removeItem('resulCto');
         localStorage.removeItem('resulAdv');
         localStorage.removeItem('capitan');
@@ -596,6 +595,49 @@ $(document).ready(function() {
             }
         }
         $('#jugadores-modal').show();
+    }
+    function mostrarJugadoresEquipo(equipo){
+        cargarDatos(equipos[equipo]).then(function (nombres) {
+
+            nombresCronometros=nombres;
+            switch(equipo.split(" ")[0]) {
+                //case "BenjaminA":nombresCronometros=benjaminA;break;
+                //case "BenjaminB":nombresCronometros=benjaminB;break;
+                case "ALEVIN":maxTiempo=60;break;
+                case "BENJAMIN":maxTiempo=50;break;
+                case "PREBENJAMIN":maxTiempo=50;break;
+                case "INFANTIL":maxJugadores=11;maxTiempo=70;break;
+                case "CADETE":maxJugadores=11;maxTiempo=80;break;
+                case "JUVENIL":maxJugadores=11;maxTiempo=90;break;
+            }
+
+            //alert('');
+            reiniciarIntervalos();
+            storageManager("guardar",'equipoElegido', equipo);
+            console.log("leyendo:"+storageManager("leer","equipoElegido"));
+            storageManager("guardar",'maxTiempo', maxTiempo);
+            storageManager("guardar",'maxJugadores', maxJugadores);
+            minTiempo=Math.round(maxTiempo*0.3)*60;
+            avgTiempo=Math.round(maxTiempo/2)*60;
+            console.log(minTiempo);
+            console.log(avgTiempo);
+            console.log(nombresCronometros.length);
+
+            if(maxJugadores>8){
+                $('#tarjetasRojasLeft').closest('.sectionestadistica').show();
+                $('#tarjetasAmarillasLeft').closest('.sectionestadistica').show();
+                //console.log("show");
+            }
+            else{
+                $('#tarjetasRojasLeft').closest('.sectionestadistica').hide();
+                $('#tarjetasAmarillasLeft').closest('.sectionestadistica').hide();
+                ////console.log( $("#tarjetasRojasLeft").innerHTML);
+            }
+
+            addeventchange();
+
+        });
+
     }
 
     function mostrarplantilla() {
@@ -708,11 +750,12 @@ $(document).ready(function() {
         }
         if(accion=="FH"){
             texto = "Hace Falta: "+nom_txt+" min "+minutosTotales+"";
-            updateVarLocalStorage('faltasCometidasright','faltasRight');
+            updateVarLocalStorage('faltasCometidasleft','faltasLeft');
+
         }
         if(accion=="FR"){
             texto = "Recibe Falta: "+nom_txt+" min "+minutosTotales+"";
-            updateVarLocalStorage('faltasCometidasleft','faltasLeft');
+            updateVarLocalStorage('faltasCometidasright','faltasRight');
         }
         if(accion=="RD"){
             texto = "Remate Dentro: "+nom_txt+" min "+minutosTotales+"";
@@ -1406,6 +1449,7 @@ $(document).ready(function() {
         $("#equipos").prop("disabled",false);
 
     });
+
     $( "#equipos" ).on( "change", function() {
         this.disabled=true;
         ////console.log($(this).val());
@@ -1414,44 +1458,7 @@ $(document).ready(function() {
         $("#cronometros").empty();
         maxJugadores=8;
 
-        cargarDatos(equipos[equipoElegido]).then(function (nombres) {
-
-            nombresCronometros=nombres;
-            switch(equipoElegido.split(" ")[0]) {
-                //case "BenjaminA":nombresCronometros=benjaminA;break;
-                //case "BenjaminB":nombresCronometros=benjaminB;break;
-                case "ALEVIN":maxTiempo=60;break;
-                case "BENJAMIN":maxTiempo=50;break;
-                case "PREBENJAMIN":maxTiempo=50;break;
-                case "INFANTIL":maxJugadores=11;maxTiempo=70;break;
-                case "CADETE":maxJugadores=11;maxTiempo=80;break;
-                case "JUVENIL":maxJugadores=11;maxTiempo=90;break;
-            }
-
-            //alert('');
-            storageManager("guardar",'equipoelegido', equipoElegido);
-            storageManager("guardar",'maxTiempo', maxTiempo);
-            storageManager("guardar",'maxJugadores', maxJugadores);
-            minTiempo=Math.round(maxTiempo*0.3)*60;
-            avgTiempo=Math.round(maxTiempo/2)*60;
-            console.log(minTiempo);
-            console.log(avgTiempo);
-            console.log(nombresCronometros.length);
-            reiniciarIntervalos();
-            if(maxJugadores>8){
-                $('#tarjetasRojasLeft').closest('.sectionestadistica').show();
-                $('#tarjetasAmarillasLeft').closest('.sectionestadistica').show();
-                //console.log("show");
-            }
-            else{
-                $('#tarjetasRojasLeft').closest('.sectionestadistica').hide();
-                $('#tarjetasAmarillasLeft').closest('.sectionestadistica').hide();
-                ////console.log( $("#tarjetasRojasLeft").innerHTML);
-            }
-
-            addeventchange();
-
-        });
+        mostrarJugadoresEquipo(equipoElegido);
     });
     addeventchange();
     function addeventchange() {
