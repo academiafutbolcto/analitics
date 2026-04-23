@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         console.log("respuesta json bin");
         console.log(data.record);
 
-        res.status(200).json(data.record);
+        res.status(200).json(data);
 
     } catch (error) {
         console.error(error); // 👈 añade esto para ver errores reales
