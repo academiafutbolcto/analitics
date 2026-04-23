@@ -36,7 +36,7 @@ $(document).ready(function() {
     if(equipos==null) {
         cargarDatos("69c3ea63c3097a1dd55b9f61").then(function (jsequipos) {
 
-            console.log(jsequipos);
+            console.log(jsequipos.EQUIPOS);
 
             var equips = Object.keys(jsequipos["EQUIPOS"]);
 
