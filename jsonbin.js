@@ -35,7 +35,7 @@ async function cargarDatos(jsonbinId) {
         const response = await fetch("https://api.jsonbin.io/v3/b/"+jsonbinId+"/latest", {
             method: "GET",
             headers: {
-                "X-Access-Key": process.env.JSONBIN_KEY,
+                "X-Access-Key": process.NEXT_PUBLIC_env.JSONBIN_KEY,
                 "Content-Type": "application/json"
             }
         });
