@@ -11,11 +11,14 @@ export default async function handler(req, res) {
         });
 
         const data = await response.json();
-        cosnole.log("respuesta json bin");
+
+        console.log("respuesta json bin");
         console.log(data.record);
+
         res.status(200).json(data.record);
 
     } catch (error) {
+        console.error(error); // 👈 añade esto para ver errores reales
         res.status(500).json({ error: "Error al obtener datos" });
     }
 }
