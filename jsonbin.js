@@ -29,9 +29,10 @@ async function cargarDatosOld(jsonbinId) {
     }
 }
 async function cargarDatos(jsonbinId) {
+    const loader = document.getElementById("loader");
     try {
-        console.log("https://api.jsonbin.io/v3/b/"+jsonbinId+"/latest");
-
+        loader.style.display = "flex";
+        
         const response = await fetch(`/api/datos?id=${jsonbinId}`);
         console.log(response);
         if (!response.ok) {
@@ -50,5 +51,8 @@ async function cargarDatos(jsonbinId) {
 
         // ⚠️ importante devolver algo para evitar errores
         return {};
+    }
+    finally{
+        loader.style.display = "none";
     }
 }
