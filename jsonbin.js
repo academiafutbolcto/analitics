@@ -2,13 +2,7 @@ async function cargarDatosOld(jsonbinId) {
     try {
         //const response = await fetch("https://api.jsonbin.io/v3/b/69c3ea63c3097a1dd55b9f61/latest", {
         console.log("https://api.jsonbin.io/v3/b/"+jsonbinId+"/latest");
-        const response = await fetch("https://api.jsonbin.io/v3/b/"+jsonbinId+"/latest", {
-            method: "GET",
-            headers: {
-                "X-Access-Key": "$2a$10$WgfLbyC50sBjcGGSePf/S.brHoos0Hq98EsxFC4rUcXY2yd0BHVYa",
-                "Content-Type": "application/json"
-            }
-        });
+        const response = await fetch(`/api/datos?id=${jsonbinId}`);
 
         if (!response.ok) {
             throw new Error("Error HTTP: " + response.status);
