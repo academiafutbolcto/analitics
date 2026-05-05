@@ -1,3 +1,12 @@
+function _normalizaEntero(v){
+        v = parseInt(v, 10);
+        return Number.isFinite(v) ? v : 0;
+    }
+
+    function _nowSeconds(){
+        return Math.floor(Date.now() / 1000);
+    }
+
 $(document).ready(function() {
     var myBarChart;
     var first=true;
@@ -30,13 +39,14 @@ $(document).ready(function() {
     var avgTiempo=1500;
     var maxTiempo=50;
     var portero="";
+	var animationFrameId = null;
     equipos = storageManager("leer",'equipos');
     equipoElegido=storageManager("leer",'equipoElegido');
 
     if(equipos==null) {
         cargarDatos("69c3ea63c3097a1dd55b9f61").then(function (jsequipos) {
 
-            console.log(jsequipos.EQUIPOS);
+            console.log(jsequipos);
 
             var equips = Object.keys(jsequipos["EQUIPOS"]);
 
@@ -132,9 +142,17 @@ $(document).ready(function() {
         $('#resulAdv').text(resulAdv);
         $('#resulCto').text(resulCto);
     }else{
-        console.log("aqui"+equipoElegido);
+        console.log("aqui "+equipoElegido);
         if(equipoElegido!=null){
+            var nombresCronometrosTemp =storageManager("leer",'nombresCronometros');
+
+            if(isEmptyObject(nombresCronometrosTemp)===false){
+                console.log("aqui2 "+nombresCronometrosTemp.length);
+                nombresCronometros=nombresCronometrosTemp;
+            }
+
             mostrarJugadoresEquipo(equipoElegido);
+
         }
 
     }
@@ -199,6 +217,7 @@ $(document).ready(function() {
             storageManager("guardar",'equipotitular',equipotitular);
             storageManager("guardar",'resulAdv', resulAdv);
             storageManager("guardar",'resulCto', resulCto);
+            console.log("guardando cronos");
             storageManager("guardar",'nombresCronometros', nombresCronometros);
 
 
@@ -335,46 +354,64 @@ $(document).ready(function() {
         $(`#time0`).text(` ${minutosTotales}:${segundosTotales < 10 ? '0' : ''}${segundosTotales}`);
     }
 
-    function accionesTotalTiempo(){
-        if((Math.floor(Date.now() / 1000)-marcatiempoTotal)>1 && marcatiempoTotal>0 && enmarcha==1){
-            iniTiempo+=Math.floor(Date.now() / 1000)-marcatiempoTotal;
-            //console.log("aqui");
-        }
-        else{
-            if(Math.floor(Date.now() / 1000)!=marcatiempoTotal) iniTiempo++;
-        }
-        const minutosTotales = Math.floor(iniTiempo / 60);
-        const segundosTotales = iniTiempo % 60;
-
-        storageManager("guardar",'tiempototal', iniTiempo);
-
-        marcatiempoTotal = Math.floor(Date.now() / 1000);
-        storageManager("guardar",'marcatiempototal', marcatiempoTotal);
-        //console.log("marcatiempototal");
-        //$(`#time0`).text(` ${minutosTotales}:${segundosTotales < 10 ? '0' : ''}${segundosTotales}`+'  ('+marcatiempototalDate+')');
-        $(`#time0`).text(` ${minutosTotales}:${segundosTotales < 10 ? '0' : ''}${segundosTotales}`);
+    
+    function _formateaTiempo(segundos){
+        segundos = Math.max(0, Math.floor(Number(segundos) || 0));
+        const minutos = Math.floor(segundos / 60);
+        const secs = segundos % 60;
+        return `${minutos}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function iniciartotaltiempo(){
-        //console.log("iniciartotaltiempo "+enmarcha);
-        if(marcatiempototalDate==null || marcatiempototalDate==0)
-        {
+    function _sincronizaTiempoDesdeMarca(total, marca){
+        const ahora = _nowSeconds();
+        if(!marca) return total;
+        const delta = ahora - marca;
+        if(delta <= 0) return total;
+        return total + delta;
+    }
+
+    function mostrarTotalTiempo(){
+        $('#time0').text(_formateaTiempo(iniTiempo));
+    }
+
+    function accionesTotalTiempo(){
+        if(enmarcha !== 1) return;
+        iniTiempo = _sincronizaTiempoDesdeMarca(iniTiempo, marcatiempoTotal);
+        marcatiempoTotal = _nowSeconds();
+        storageManager("guardar", 'tiempototal', iniTiempo);
+        storageManager("guardar", 'marcatiempototal', marcatiempoTotal);
+        $('#time0').text(_formateaTiempo(iniTiempo));
+    }
+
+    function tickTemporizador() {
+        if(enmarcha !== 1) return;
+        accionesTotalTiempo();
+        for (var jugador in intervalos) {
+            if(Object.prototype.hasOwnProperty.call(intervalos, jugador)) {
+                accionesCronometroJugador(jugador);
+            }
+        }
+        if(animationFrameId) clearTimeout(animationFrameId);
+        animationFrameId = setTimeout(function(){
+            tickTemporizador();
+        }, 1000);
+    }
+	
+	function iniciartotaltiempo(){
+        if(marcatiempototalDate == null || marcatiempototalDate == 0) {
             marcatiempototalDate = fechaHora();
-            storageManager("guardar",'marcatiempototaldate', marcatiempototalDate);
+            storageManager("guardar", 'marcatiempototaldate', marcatiempototalDate);
             mensajeTablaMarcador('INICIO TIEMPO TOTAL');
         }
-        /*inicio*/
         accionesTotalTiempo();
-
-
-        totalTiempo = setInterval(function() {
-            accionesTotalTiempo();
-            for (var jugador in intervalos) {
-                accionesCronometroJugador(jugador);
-                //console.log("accionesCronometroJugador" +jugador);
-            }
+        if(animationFrameId) {
+            clearTimeout(animationFrameId);
+            cancelAnimationFrame(animationFrameId);
+        }
+        ultimoTick = _nowSeconds();
+        animationFrameId = setTimeout(function(){
+            tickTemporizador();
         }, 1000);
-
     }
 
     function showTimeColor(tiempo, jugador,arranque=false){
@@ -519,6 +556,10 @@ $(document).ready(function() {
     }
 
     function reiniciarIntervalos() {
+		if(animationFrameId) {
+            clearTimeout(animationFrameId);
+            animationFrameId = null;
+        }
         //console.log("reiniciarIntervalos");
         //addeventchange();
         $('#divequipos').show();
@@ -597,46 +638,75 @@ $(document).ready(function() {
         $('#jugadores-modal').show();
     }
     function mostrarJugadoresEquipo(equipo){
-        cargarDatos(equipos[equipo]).then(function (nombres) {
 
-            nombresCronometros=nombres;
-            switch(equipo.split(" ")[0]) {
-                //case "BenjaminA":nombresCronometros=benjaminA;break;
-                //case "BenjaminB":nombresCronometros=benjaminB;break;
-                case "ALEVIN":maxTiempo=60;break;
-                case "BENJAMIN":maxTiempo=50;break;
-                case "PREBENJAMIN":maxTiempo=50;break;
-                case "INFANTIL":maxJugadores=11;maxTiempo=70;break;
-                case "CADETE":maxJugadores=11;maxTiempo=80;break;
-                case "JUVENIL":maxJugadores=11;maxTiempo=90;break;
-            }
+        switch(equipo.split(" ")[0]) {
+            //case "BenjaminA":nombresCronometros=benjaminA;break;
+            //case "BenjaminB":nombresCronometros=benjaminB;break;
+            case "ALEVIN":maxTiempo=60;break;
+            case "BENJAMIN":maxTiempo=50;break;
+            case "PREBENJAMIN":maxTiempo=50;break;
+            case "INFANTIL":maxJugadores=11;maxTiempo=70;break;
+            case "CADETE":maxJugadores=11;maxTiempo=80;break;
+            case "JUVENIL":maxJugadores=11;maxTiempo=90;break;
+        }
+        minTiempo=Math.round(maxTiempo*0.3)*60;
+        avgTiempo=Math.round(maxTiempo/2)*60;
+        console.log(minTiempo);
+        console.log(avgTiempo);
+        storageManager("guardar",'maxTiempo', maxTiempo);
+        storageManager("guardar",'maxJugadores', maxJugadores);
+        storageManager("guardar",'equipoElegido', equipo);
 
-            //alert('');
+
+        if(nombresCronometros==null || nombresCronometros=="") {
+            console.log("nombres cronometros:"+nombresCronometros);
+            cargarDatos(equipos[equipo]).then(function (nombres) {
+
+                nombresCronometros = nombres;
+
+
+
+                //alert('');
+                reiniciarIntervalos();
+                storageManager("guardar",'nombresCronometros', nombresCronometros);
+                storageManager("guardar", 'equipoElegido', equipo);
+
+                console.log("intento cargarlos:"+nombresCronometros.length);
+
+                if (maxJugadores > 8) {
+                    $('#tarjetasRojasLeft').closest('.sectionestadistica').show();
+                    $('#tarjetasAmarillasLeft').closest('.sectionestadistica').show();
+                    //console.log("show");
+                } else {
+                    $('#tarjetasRojasLeft').closest('.sectionestadistica').hide();
+                    $('#tarjetasAmarillasLeft').closest('.sectionestadistica').hide();
+                    ////console.log( $("#tarjetasRojasLeft").innerHTML);
+                }
+
+                addeventchange();
+
+            });
+        }
+        else{
+
+            if(nombresCronometros!=null || nombresCronometros!="") storageManager("guardar",'nombresCronometros', nombresCronometros);
             reiniciarIntervalos();
-            storageManager("guardar",'equipoElegido', equipo);
-            console.log("leyendo:"+storageManager("leer","equipoElegido"));
-            storageManager("guardar",'maxTiempo', maxTiempo);
-            storageManager("guardar",'maxJugadores', maxJugadores);
-            minTiempo=Math.round(maxTiempo*0.3)*60;
-            avgTiempo=Math.round(maxTiempo/2)*60;
-            console.log(minTiempo);
-            console.log(avgTiempo);
+            storageManager("guardar", 'equipoElegido', equipo);
+
+
             console.log(nombresCronometros.length);
 
-            if(maxJugadores>8){
+            if (maxJugadores > 8) {
                 $('#tarjetasRojasLeft').closest('.sectionestadistica').show();
                 $('#tarjetasAmarillasLeft').closest('.sectionestadistica').show();
                 //console.log("show");
-            }
-            else{
+            } else {
                 $('#tarjetasRojasLeft').closest('.sectionestadistica').hide();
                 $('#tarjetasAmarillasLeft').closest('.sectionestadistica').hide();
                 ////console.log( $("#tarjetasRojasLeft").innerHTML);
             }
 
-            addeventchange();
-
-        });
+            addeventchange();}
 
     }
 
@@ -686,7 +756,9 @@ $(document).ready(function() {
 
     $(window).on("focus", function() {
         ////console.log("El usuario volvió a la página.");
-        window.location.reload();
+        //alert('');
+        //if(nombresCronometros!=null && nombresCronometros!="") storageManager("guardar",'nombresCronometros', nombresCronometros);
+        //window.location.reload();
     });
 
     $(document).on('click',".buttondelete", function() {
@@ -703,7 +775,17 @@ $(document).ready(function() {
             $('#jugjug').text("JUGANDO: "+totaljugadoresencampo);
         }
         $("#"+nombre).remove();
+        console.log(nombresCronometros);
+        storageManager("guardar",'nombresCronometros',nombresCronometros);
+
     });
+
+    function isEmptyObject(obj) {
+        if (obj != null && Object.keys(obj).length > 0) {
+            return false;
+        }
+        return true;
+    }
 
     function updateVarLocalStorage(storage,iddiv=''){
         //console.log("updateVarLocalStorage");
@@ -1080,6 +1162,10 @@ $(document).ready(function() {
     // Evento para el botón de detener todos los cronómetros
     $('#parar-todos').click(function() {
         //console.log("parar-todos");
+		if(animationFrameId) {
+            clearTimeout(animationFrameId);
+            animationFrameId = null;
+        }
         $('#iniciar-todos').toggle();
         $('#parar-todos').toggle();
         clearInterval(totalTiempo);
